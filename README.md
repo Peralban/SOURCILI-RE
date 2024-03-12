@@ -11,7 +11,7 @@ Le projet Arcade est une implémentation d'une bibliothèque de jeux vidéo, per
 Au début du projet, nous avons collaboré avec deux autres groupes pour réfléchir à l'architecture du projet. Les membres de notre groupe étaient :
 
 - Aubane NOURRY (aubane.nourry@epitech.eu)
-- Andry GIGANT (andry.gigant@epitech.eu)
+- Landry GIGANT (landry.gigant@epitech.eu)
 - Alban PERALTA (alban.peralta@epitech.eu)
 
 Nous avons travaillé en collaboration avec :
