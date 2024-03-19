@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Clion folder
+.idea/
+
+# Visual Studio Code folder
+.vscode/
