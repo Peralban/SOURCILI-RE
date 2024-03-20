@@ -62,7 +62,11 @@ jobs:
         with:
           submodules: 'recursive'
       - name: Check submodules
-        run: git submodule update --init --recursive
+        run: |
+          make check-submodules
+          if [ $? -eq 1 ]; then
+              exit 1
+          fi
   check_interfaces:
     name: Check interfaces
     needs: check_submodules
