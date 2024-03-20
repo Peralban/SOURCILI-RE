@@ -2,7 +2,7 @@ name: ci-arcade
 
 env:
   MIRROR_URL: git@github.com:EpitechPromo2027/B-OOP-400-NAN-4-1-arcade-alban.peralta.git
-  EXECUTABLES: "./arcade,/lib/arcade_ncurses.so,/lib/arcade_sdl2.so"
+  EXECUTABLES: "./arcade,./lib/arcade_ncurses.so,./lib/arcade_sdl2.so"
 
 on:
   push:
@@ -26,13 +26,13 @@ jobs:
         timeout-minutes: 2
       - name: Check executables
         run: |
-            ALL_EXECUTABLES=$(echo ${EXECUTABLES} | tr ',' '\n')
-            for executable in ${ALL_EXECUTABLES}; do
-              if [ ! -x ${executable} ]; then
-                echo "::error file=${executable},title=Executable error::Not found or not executable."
-                exit 1
-              fi
-            done
+          IFS=','
+          string="${{ env.EXECUTABLES }}"
+          for exec in $string; do
+            if ! [ -x "$exec" ] || ! [ -f "$exec" ]; then
+              exit 42
+            fi
+          done
       - name: Check clean
         run: make clean
   push_to_mirror:
