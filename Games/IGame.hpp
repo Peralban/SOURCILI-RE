@@ -8,8 +8,8 @@
 #pragma once
 
 #include "IEntity.hpp"
-#include "../Graphic/IText.hpp"
-#include "../Graphic/ISound.hpp"
+#include "IText.hpp"
+#include "ISound.hpp"
 #include <memory>
 
 class IGame {
