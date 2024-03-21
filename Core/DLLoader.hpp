@@ -48,8 +48,6 @@ public :
     }
 
     T *getInstance(const std::string type) {
-        std::function<std::unique_ptr<T>()> sym;
-
         if (type != "loadGameInstance" && type != "loadGraphicInstance")
             throw TypeException();
         auto sym = reinterpret_cast<T *(*)()>(dlsym(lib, type.c_str()));

@@ -49,7 +49,7 @@ games-re: fclean games
 
 graphicals-re: fclean graphicals
 
-re: fclean all
+re: fclean all tests_clean
 
 update-submodules:
 	@git submodule update --init --recursive
