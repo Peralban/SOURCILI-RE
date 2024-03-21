@@ -31,6 +31,7 @@ public :
         if (!lib)
             throw Exception();
     };
+    
     ~DLLoader() {
         dlclose(lib);
     };
@@ -38,7 +39,7 @@ public :
     std::unique_ptr<T> getInstance() {
         function<std::unique_ptr<T>()> sym;
 
-        sym = (std::unique_ptr<T>(*)())(dlsym(lib, "getInstance"));
+        sym = (std::unique_ptr<T>(*)())(dlsym(lib, "loadInstance"));
         if (!sym)
             throw Exception();
         return sym();
