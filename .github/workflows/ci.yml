@@ -15,7 +15,7 @@ on:
 jobs:
   check_program_compilation:
     name: Check program compilation
-    needs: check_interfaces
+    needs: check_submodules
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker:latest
