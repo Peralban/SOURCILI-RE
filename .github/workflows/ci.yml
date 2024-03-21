@@ -53,7 +53,6 @@ jobs:
             ${{ secrets.GIT_SSH_PRIVATE_KEY }}
   check_submodules:
     name: Check submodules
-    needs: check_program_compilation
     container:
       image: epitechcontent/epitest-docker:latest
     runs-on: ubuntu-latest
