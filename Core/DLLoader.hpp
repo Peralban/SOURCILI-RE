@@ -10,6 +10,8 @@
 #include <string>
 #include <utility>
 #include <dlfcn.h>
+#include <functional>
+#include <memory>
 
 template <typename T>
 class DLLoader {
@@ -33,9 +35,10 @@ public :
         dlclose(lib);
     };
 
-    T &getInstance() {
-        using func = T *(*)();
-        auto sym = reinterpret_cast<func>(dlsym(lib, "entry_point"));
+    std::unique_ptr<T> getInstance() {
+        function<std::unique_ptr<T>()> sym;
+
+        sym = (std::unique_ptr<T>(*)())(dlsym(lib, "getInstance"));
         if (!sym)
             throw Exception();
         return sym();
