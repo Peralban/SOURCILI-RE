@@ -7,15 +7,16 @@
 
 NAME =  arcade_snake.so
 
-SRC = 	Main.cpp
+SRC = 	Snake.cpp \
+		Player.cpp
 
 OBJ = $(SRC:.cpp=.o)
 CFLAGS = -g -Wall -Wextra -std=c++20 -shared -fPIC
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	g++ $(CFLAGS) -o $(NAME) $(OBJ)
+$(NAME):
+	g++ $(CFLAGS) -o $(NAME) $(SRC)
 	mv $(NAME) ../../lib
 
 clean:
