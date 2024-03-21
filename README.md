@@ -1,33 +1,34 @@
 # Arcade
 
-Ce dépôt contient le projet Arcade réalisé dans le cadre de la formation à l'Epitech.
+This repository contains the Arcade project carried out as part of the training at Epitech.
 
-## Description du Projet
+## Project Description
 
-Le projet Arcade est une implémentation d'une bibliothèque de jeux vidéo, permettant de créer, de jouer et de gérer des jeux vidéo rétro. Ce projet a été réalisé en C++, en respectant les normes de programmation de l'Epitech.
+The Arcade project is an implementation of a video game library, allowing to create, play and manage retro video games. This project was carried out in C++, respecting the programming standards of Epitech.
+You can find the project subject [here](./doc/Subject/B-OOP-400_arcade.pdf).
 
-## Collaboration sur l'Architecture
+## Collaboration on the Architecture
 
-Au début du projet, nous avons collaboré avec deux autres groupes pour réfléchir à l'architecture du projet. Les membres de notre groupe étaient :
+At the beginning of the project, we collaborated with two other groups to think about the project's architecture. The members of our group were:
 
 - Aubane NOURRY (aubane.nourry@epitech.eu)
 - Landry GIGANT (landry.gigant@epitech.eu)
 - Alban PERALTA (alban.peralta@epitech.eu)
 
-Nous avons travaillé en collaboration avec :
+We worked in collaboration with:
 
 - Simon GANIER-LOMBARD (simon.ganier-lombard@epitech.eu)
 - Kylian TRANCHET (kylian.tranchet@epitech.eu)
 - Quentin TENNEREL (quentin.tennerel@epitech.eu)
 
-du premier groupe, ainsi que :
+from the first group, as well as:
 
 - Thomas BOUÉ (thomas.boue@epitech.eu)
 - Théophile JEROME-ROCHER (theophile.jerome-rocher@epitech.eu)
 - Mathieu ROGER (mathieu.roger@epitech.eu)
 
-du deuxième groupe.
+from the second group.
 
 ## Contact
 
-Pour toute question ou remarque, vous pouvez contacter les membres du groupe mentionnés ci-dessus par e-mail.
+For any questions or comments, you can contact the group members mentioned above by email.
