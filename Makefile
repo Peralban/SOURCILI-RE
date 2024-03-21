@@ -77,3 +77,9 @@ check-interfaces:
 		echo -e "\033[0;31mInterfaces are not identical to those in Shared-Arcade/Interfaces ❌\033[0m" ; \
 		exit 1 ; \
 	fi
+
+tests_run:
+	make -C Core tests_run
+
+tests_clean:
+	make -C Core tests_clean
