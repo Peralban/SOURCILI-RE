@@ -27,13 +27,14 @@ public :
     };
 
     DLLoader(const std::string &path) {
-        lib = dlopen(path.c_str(), RTLD_LAZY);
+        lib = std::unique_ptr<void, decltype(&dlclose)>(dlopen(path.c_str(), RTLD_LAZY), dlclose);
         if (!lib)
             throw Exception();
     };
     
     ~DLLoader() {
-        dlclose(lib);
+        if (lib)
+            dlclose(lib);
     };
 
     std::unique_ptr<T> getInstance() {
@@ -45,5 +46,5 @@ public :
         return sym();
     }
 private:
-    void *lib;
+    std::unique_ptr<void, decltype(&dlclose)> lib;
 };
