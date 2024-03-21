@@ -40,3 +40,6 @@
 # Built executable
 arcade
 lib/arcade_*
+
+# criterion file
+tests*

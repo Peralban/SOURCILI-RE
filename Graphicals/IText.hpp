@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "IEntity.hpp"
+#include "../Games/IEntity.hpp"
 
 class IText {
     public:

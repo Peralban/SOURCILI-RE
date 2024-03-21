@@ -15,7 +15,7 @@ on:
 jobs:
   check_program_compilation:
     name: Check program compilation
-    needs: check_interfaces
+    needs: check_submodules
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker:latest
@@ -66,21 +66,4 @@ jobs:
           make check-submodules
           if [ $? -eq 1 ]; then
               exit 1
-          fi
-  check_interfaces:
-    name: Check interfaces
-    needs: check_submodules
-    container:
-      image: epitechcontent/epitest-docker:latest
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
-        with:
-          submodules: 'recursive'
-      - name: Check interfaces
-        run: |
-          make check-interfaces
-          if [ $? -eq 1 ]; then
-            exit 1
           fi

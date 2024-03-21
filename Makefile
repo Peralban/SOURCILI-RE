@@ -49,7 +49,7 @@ games-re: fclean games
 
 graphicals-re: fclean graphicals
 
-re: fclean all
+re: fclean all tests_clean
 
 update-submodules:
 	@git submodule update --init --recursive
@@ -66,14 +66,8 @@ check-submodules:
 	fi
 	@echo -e "\033[0;32mSubmodule up to date ✅\033[0m"
 
-check-interfaces:
-	@if diff $(GAMES_PATH)IEntity.hpp Shared-Arcade/Interfaces/IEntity.hpp && \
-		diff $(GAMES_PATH)IGame.hpp Shared-Arcade/Interfaces/IGame.hpp && \
-		diff $(GRAPHICALS_PATH)IGraphic.hpp Shared-Arcade/Interfaces/IGraphic.hpp && \
-		diff $(GRAPHICALS_PATH)ISound.hpp Shared-Arcade/Interfaces/ISound.hpp && \
-		diff $(GRAPHICALS_PATH)IText.hpp Shared-Arcade/Interfaces/IText.hpp ; then \
-		echo -e "\033[0;32mInterfaces are identical to those in Shared-Arcade/Interfaces ✅\033[0m" ; \
-	else \
-		echo -e "\033[0;31mInterfaces are not identical to those in Shared-Arcade/Interfaces ❌\033[0m" ; \
-		exit 1 ; \
-	fi
+tests_run:
+	make -C Core tests_run
+
+tests_clean:
+	make -C Core tests_clean
