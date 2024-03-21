@@ -16,9 +16,9 @@
 template <typename T>
 class DLLoader {
 public :
-    class Exception : public std::exception {
+    class DLLoaderException : public std::exception {
     public :
-        Exception(std::string const &msg) : _msg(msg) {};
+        DLLoaderException(std::string const &msg) : _msg(msg) {};
         [[nodiscard]] const char *what() const noexcept override {
             return _msg.c_str();
         }
@@ -26,14 +26,14 @@ public :
         std::string _msg;
     };
 
-    class dlException : public Exception {
+    class dlException : public DLLoaderException {
     public :
-        dlException() : Exception(dlerror()) {};
+        dlException() : DLLoaderException(dlerror()) {};
     };
 
-    class TypeException : public Exception {
+    class TypeException : public DLLoaderException {
     public :
-        TypeException() : Exception("Invalid type") {};
+        TypeException() : DLLoaderException("Invalid type") {};
     };
 
     DLLoader(const std::string path) {
