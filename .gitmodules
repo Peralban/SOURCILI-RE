@@ -1,0 +1,4 @@
+[submodule "Shared-Arcade"]
+	path = Shared-Arcade
+	url = git@github.com:6im0n/Shared-Arcade.git
+	branch = main
