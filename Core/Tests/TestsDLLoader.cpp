@@ -10,7 +10,7 @@
 
 Test(DLLoader, loadGameInstanceOnFunctionnalLib)
 {
-    DLLoader<IGame> loader("./Tests/LibTests/testsLoadInstance.so");
+    DLLoader<IGame> loader("./Tests/LibTests/TestsLoadInstance.so");
 
     std::unique_ptr<IGame> game;
     game.reset(loader.getInstance("loadGameInstance"));

@@ -12,7 +12,7 @@ SRC = 	Main.cpp
 OBJ = $(SRC:.cpp=.o)
 CFLAGS = -g -Wall -Wextra -std=c++20
 
-TESTS_SRC = 	Tests/testsDLLoader.cpp
+TESTS_SRC = 	Tests/TestsDLLoader.cpp
 
 all: $(NAME)
 

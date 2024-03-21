@@ -5,9 +5,9 @@
 ## Snake Makefile
 ##
 
-NAME =  testsLoadInstance.so
+NAME =  TestsLoadInstance.so
 
-SRC = 	testsLoadInstance.cpp
+SRC = 	TestsLoadInstance.cpp
 
 OBJ = $(SRC:.cpp=.o)
 CFLAGS = -g -Wall -Wextra -std=c++20 -shared -fPIC
