@@ -37,26 +37,26 @@ public :
     };
 
     DLLoader(const std::string path) {
-        lib = std::unique_ptr<void, decltype(&dlclose)>(dlopen(path.c_str(), RTLD_LAZY), dlclose);
+        lib = dlopen(path.c_str(), RTLD_LAZY);
         if (!lib)
             throw dlException();
-    };
+    }
     
     ~DLLoader() {
         if (lib)
-            dlclose(lib.get());
-    };
+            dlclose(lib);
+    }
 
-    std::unique_ptr<T> getInstance(const std::string type) {
+    T *getInstance(const std::string type) {
         std::function<std::unique_ptr<T>()> sym;
 
         if (type != "loadGameInstance" && type != "loadGraphicInstance")
             throw TypeException();
-        sym = (std::unique_ptr<T>(*)())(dlsym(lib.get(), type.c_str()));
+        auto sym = reinterpret_cast<T *(*)()>(dlsym(lib, type.c_str()));
         if (!sym)
             throw dlException();
         return sym();
     }
 private:
-    std::unique_ptr<void, decltype(&dlclose)> lib;
+    void *lib;
 };
