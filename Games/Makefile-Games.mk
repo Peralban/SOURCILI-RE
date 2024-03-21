@@ -5,15 +5,14 @@
 ## Games Makefile
 ##
 
+SNAKE_MAKEFILE = make -f Makefile-Games-Snake.mk -C Snake
+
 all: snake
 
 snake:
-	make -C Snake
-
-clean:
-	make -C Snake clean
+	$(SNAKE_MAKEFILE)
 
 fclean:
-	make -C Snake fclean
+	$(SNAKE_MAKEFILE) fclean
 
 re: fclean all
