@@ -17,7 +17,7 @@ public:
     void startGame() override {}
     void stopGame() override {}
     void simulate() override {}
-    void catchKeyEvent(int key) override {}
+    void catchKeyEvent(int key) override {(void)key;}
     std::vector<std::shared_ptr<IEntity>> getEntities() override { return std::vector<std::shared_ptr<IEntity>>(); }
     std::vector<std::shared_ptr<IText>> getTexts() override { return std::vector<std::shared_ptr<IText>>(); }
     std::vector<std::shared_ptr<ISound>> getSounds() override { return std::vector<std::shared_ptr<ISound>>(); }

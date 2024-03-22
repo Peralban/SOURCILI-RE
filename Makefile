@@ -22,26 +22,31 @@ GAMES_PATH = Games/
 
 GRAPHICALS_PATH = Graphicals/
 
+#With this pattern you can just make on other Makefiles by calling the variable and write the rule you want to execute
+#Example: $(CORE_MAKEFILE) fclean
+
+CORE_MAKEFILE = make -f Makefile-Core.mk -C Core
+GAMES_MAKEFILE = make -f Makefile-Games.mk -C Games
+GRAPHICALS_MAKEFILE = make -f Makefile-Graphicals.mk -C Graphicals
+
 all: core games graphicals
 
 core:
-	make -C Core
+	$(CORE_MAKEFILE)
 
 games:
-	make -C Games
+	$(GAMES_MAKEFILE)
 
 graphicals:
-	make -C Graphicals
+	$(GRAPHICALS_MAKEFILE)
 
 clean:
-	make -C Core clean
-	make -C Games clean
-	make -C Graphicals clean
+	$(CORE_MAKEFILE) clean
 
 fclean:
-	make -C Core fclean
-	make -C Games fclean
-	make -C Graphicals fclean
+	$(CORE_MAKEFILE) fclean
+	$(GAMES_MAKEFILE) fclean
+	$(GRAPHICALS_MAKEFILE) fclean
 
 core-re: fclean core
 
@@ -49,7 +54,7 @@ games-re: fclean games
 
 graphicals-re: fclean graphicals
 
-re: fclean all tests_clean
+re: fclean all
 
 update-submodules:
 	@git submodule update --init --recursive
@@ -67,7 +72,8 @@ check-submodules:
 	@echo -e "\033[0;32mSubmodule up to date ✅\033[0m"
 
 tests_run:
-	make -C Core tests_run
+	$(CORE_MAKEFILE) tests_run
 
 tests_clean:
-	make -C Core tests_clean
+	$(CORE_MAKEFILE) tests_clean
+
