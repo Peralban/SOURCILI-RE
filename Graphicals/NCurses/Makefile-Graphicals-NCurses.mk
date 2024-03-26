@@ -7,14 +7,14 @@
 
 NAME =  arcade_ncurses.so
 
-SRC = 	Main.cpp
+SRC = 	NCursesGraphic.cpp
 
 CFLAGS = -g -Wall -Wextra -std=c++20 -shared -fPIC
 
 all: $(NAME)
 
 $(NAME):
-	g++ $(CFLAGS) -o $(NAME) $(SRC)
+	g++ $(CFLAGS) -o $(NAME) $(SRC) -lncurses
 	mv $(NAME) ../../lib
 
 fclean:
