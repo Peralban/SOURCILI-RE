@@ -9,6 +9,7 @@
 
 #include "../AEntity.hpp"
 #include "Snake.hpp"
+#include <list>
 
 class Player : public AEntity {
     public:
@@ -19,7 +20,7 @@ class Player : public AEntity {
         void move(Direction dir);
         int getPlayerSize() { return this->_player_size; }
         void setPlayerSize(int size) { this->_player_size = size; }
-        std::vector<std::shared_ptr<IEntity>> getTail() { return this->_tail; }
+        std::list<std::shared_ptr<IEntity>> getTail() { return this->_tail; }
         void addTail(size_t x, size_t y);
         void removeTail();
         void setDirection(Direction dir) { this->direction = dir; }
@@ -27,5 +28,5 @@ class Player : public AEntity {
     private:
         Direction direction;
         int _player_size;
-        std::vector<std::shared_ptr<IEntity>> _tail;
+        std::list<std::shared_ptr<IEntity>> _tail;
 };

@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../AGame.hpp"
+#include <list>
 
 enum Direction {
     UPWARD,
@@ -30,7 +31,7 @@ class Snake : public AGame {
         void catchKeyEvent(int key) override;
 
         void setPlayer(std::shared_ptr<IEntity> player) {_player = player;}
-        void setFood(std::vector<std::shared_ptr<IEntity>> food) {_food = food;}
+        void setFood(std::list<std::shared_ptr<IEntity>> food) {_food = food;}
         void addFood(std::shared_ptr<IEntity> food);
         void setWalls(std::vector<std::shared_ptr<IEntity>> walls) {_walls = walls;}
         void addWall(std::shared_ptr<IEntity> wall);
@@ -43,15 +44,17 @@ class Snake : public AGame {
         bool isRunning() {return _isRunning;}
         int getSpeed() {return _speed;}
         std::shared_ptr<IEntity> getPlayer() {return _player;}
-        std::vector<std::shared_ptr<IEntity>> getFood() {return _food;}
+        std::list<std::shared_ptr<IEntity>> getFood() {return _food;}
         std::vector<std::shared_ptr<IEntity>> getWalls() {return _walls;}
+        std::vector<std::shared_ptr<IEntity>> getOtherEntities() {return _entities;}
         std::vector<std::shared_ptr<IEntity>> getEntities();
 
         std::shared_ptr<IEntity> createFood();
+        void removeFood(std::shared_ptr<IEntity> food);
 
     private:
         std::shared_ptr<IEntity> _player;
-        std::vector<std::shared_ptr<IEntity>> _food;
+        std::list<std::shared_ptr<IEntity>> _food;
         std::vector<std::shared_ptr<IEntity>> _walls;
         int _score;
         int _speed;

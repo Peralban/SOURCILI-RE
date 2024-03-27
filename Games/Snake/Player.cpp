@@ -7,28 +7,28 @@
 
 #include "Player.hpp"
 
-Player::Player() : AEntity("player", {0, 0}, {1, 1}, 0, 'O', std::make_shared<AColor>(255, 255, 255, 255))
+Player::Player() : AEntity("Assets/Snake/player", {0, 0}, {29, 29}, 0, 'O', std::make_shared<AColor>(255, 255, 255, 255))
 {
     this->direction = Direction::TORIGHT;
     this->_player_size = 4;
-    this->_tail = std::vector<std::shared_ptr<IEntity>>();
+    this->_tail = std::list<std::shared_ptr<IEntity>>();
 }
 
-Player::Player(size_t x, size_t y) : AEntity("player", {x, y}, {1, 1}, 0, 'O', std::make_shared<AColor>(255, 255, 255, 255))
+Player::Player(size_t x, size_t y) : AEntity("Assets/Snake/player", {x, y}, {29, 29}, 0, 'O', std::make_shared<AColor>(255, 255, 255, 255))
 {
     this->direction = Direction::TORIGHT;
     this->_player_size = 4;
-    this->_tail = std::vector<std::shared_ptr<IEntity>>();
+    this->_tail = std::list<std::shared_ptr<IEntity>>();
 }
 
 void Player::addTail(size_t x, size_t y)
 {
-    this->_tail.push_back(std::make_shared<AEntity>("tail", std::vector<size_t>{x, y}, std::vector<size_t>{1, 1}, 0, 'o', std::make_shared<AColor>(255, 255, 255, 255)));
+    this->_tail.push_back(std::make_shared<AEntity>("Assets/Snake/tail", std::vector<size_t>{x, y}, std::vector<size_t>{29, 29}, 0, 'o', std::make_shared<AColor>(255, 255, 255, 255)));
 }
 
 void Player::removeTail()
 {
-    this->_tail.pop_back();
+    this->_tail.pop_front();
 }
 
 void Player::move(Direction dir)

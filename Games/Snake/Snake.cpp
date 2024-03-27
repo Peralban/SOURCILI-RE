@@ -7,10 +7,17 @@
 
 #include "Snake.hpp"
 #include "Player.hpp"
+#include <chrono>
+#include <thread>
 
 void Snake::addFood(std::shared_ptr<IEntity> food)
 {
     this->_food.push_back(food);
+}
+
+void Snake::removeFood(std::shared_ptr<IEntity> food)
+{
+    this->_food.remove(food);
 }
 
 void Snake::addWall(std::shared_ptr<IEntity> wall)
@@ -18,26 +25,26 @@ void Snake::addWall(std::shared_ptr<IEntity> wall)
     this->_walls.push_back(wall);
 }
 
-Snake::Snake() : _score(0), _speed(1), _isRunning(false), _width(17), _height(15)
+Snake::Snake() : _score(0), _speed(1), _isRunning(false), _width(22), _height(28)
 {
     this->setPlayer(std::make_shared<Player>(8, 7));
-    this->_food = std::vector<std::shared_ptr<IEntity>>();
+    this->_food = std::list<std::shared_ptr<IEntity>>();
     this->_walls = std::vector<std::shared_ptr<IEntity>>();
     this->addFood(createFood());
-    this->addWall(std::make_shared<AEntity>("corner_wall", std::vector<size_t>{0, 0}, std::vector<size_t>{1, 1}, 0, '┌', std::make_shared<AColor>(0, 0, 0, 255)));
-    this->addWall(std::make_shared<AEntity>("corner_wall", std::vector<size_t>{0, 14}, std::vector<size_t>{1, 1}, 90, '└', std::make_shared<AColor>(0, 0, 0, 255)));
-    this->addWall(std::make_shared<AEntity>("corner_wall", std::vector<size_t>{16, 14}, std::vector<size_t>{1, 1}, 180, '┘', std::make_shared<AColor>(0, 0, 0, 255)));
-    this->addWall(std::make_shared<AEntity>("corner_wall", std::vector<size_t>{16, 0}, std::vector<size_t>{1, 1}, 270, '┐', std::make_shared<AColor>(0, 0, 0, 255)));
-    for (size_t i = 1; i < 17; i++) {
-        this->addWall(std::make_shared<AEntity>("wall", std::vector<size_t>{i, 0}, std::vector<size_t>{1, 1}, 0, '─', std::make_shared<AColor>(0, 0, 0, 255)));
-        this->addWall(std::make_shared<AEntity>("wall", std::vector<size_t>{i, 14}, std::vector<size_t>{1, 1}, 0, '─', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, 0}, std::vector<size_t>{29, 29}, 0, '┌', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, this->getWidth() - 1}, std::vector<size_t>{29, 29}, 90, '└', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getHeight() - 1, this->getWidth() - 1}, std::vector<size_t>{29, 29}, 180, '┘', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getHeight() - 1, 0}, std::vector<size_t>{29, 29}, 270, '┐', std::make_shared<AColor>(0, 0, 0, 255)));
+    for (size_t i = 1; i < this->getWidth(); i++) {
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{i, 0}, std::vector<size_t>{29, 29}, 0, '─', std::make_shared<AColor>(0, 0, 0, 255)));
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{i, this->getHeight() - 1}, std::vector<size_t>{29, 29}, 0, '─', std::make_shared<AColor>(0, 0, 0, 255)));
     }
-    for (size_t i = 1; i < 15; i++) {
-        this->addWall(std::make_shared<AEntity>("wall", std::vector<size_t>{0, i}, std::vector<size_t>{1, 1}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
-        this->addWall(std::make_shared<AEntity>("wall", std::vector<size_t>{16, i}, std::vector<size_t>{1, 1}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
+    for (size_t i = 1; i < this->getHeight(); i++) {
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, i}, std::vector<size_t>{29, 29}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getWidth() - 1, i}, std::vector<size_t>{29, 29}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
     }
     std::vector<std::shared_ptr<IEntity>> entities = std::vector<std::shared_ptr<IEntity>>();
-    entities.push_back(std::make_shared<AEntity>("background", std::vector<size_t>{0, 0}, std::vector<size_t>{1, 1}, 0, '\0', std::make_shared<AColor>(255, 255, 255, 255)));
+    //entities.push_back(std::make_shared<AEntity>("Assets/Snake/background", std::vector<size_t>{0, 0}, std::vector<size_t>{29, 29}, 0, '\0', std::make_shared<AColor>(255, 255, 255, 255)));
     //TEXT SCORE!!!
 }
 
@@ -87,8 +94,8 @@ std::shared_ptr<IEntity> Snake::createFood()
     bool correctPos;
 
     do {
-        x = rand() % this->_width;
-        y = rand() % this->_height;
+        x = rand() % this->_width - 1;
+        y = rand() % this->_height - 1;
         correctPos = true;
         for (auto &tail : dynamic_cast<Player *>(this->getPlayer().get())->getTail()) {
             if (x == tail->getPos()[0] && y == tail->getPos()[1]) {
@@ -104,19 +111,27 @@ std::shared_ptr<IEntity> Snake::createFood()
                 break;
             }
         }
+        if (x == 0 || x == this->getWidth() - 1 || y == 0 || y == this->getHeight() - 1)
+            correctPos = false;
     } while (!correctPos);
     std::string foodChoices = "🍇🍎🍏🍑🍊🍋🍍🍐🍒🍓🥝";
     size_t randomIndex = rand() % foodChoices.size();
-    return std::make_shared<AEntity>("food", std::vector<size_t>{x, y}, std::vector<size_t>{1, 1}, 0, foodChoices[randomIndex], std::make_shared<AColor>(255, 0, 0, 255));
+    return std::make_shared<AEntity>("Assets/Snake/food", std::vector<size_t>{x, y}, std::vector<size_t>{29, 29}, 0, foodChoices[randomIndex], std::make_shared<AColor>(255, 0, 0, 255));
 }
 
 int Snake::simulate()
 {
+    static std::chrono::time_point<std::chrono::steady_clock> lastFrameTime = std::chrono::steady_clock::now();
+    std::chrono::time_point<std::chrono::steady_clock> currentTime = std::chrono::steady_clock::now();
+    std::chrono::duration<float> elapsedTime = currentTime - lastFrameTime;
+
+    if (elapsedTime.count() <= 0.5f)
+        return 0;
     if (this->_isRunning == false)
         return 0;
     Player *player = dynamic_cast<Player *>(this->getPlayer().get());
     player->move(player->getDirection());
-    if (player->getPos()[0] == 0 || player->getPos()[0] == 16 || player->getPos()[1] == 0 || player->getPos()[1] == 14)
+    if (player->getPos()[0] == 0 || player->getPos()[0] == this->getHeight() - 1 || player->getPos()[1] == 0 || player->getPos()[1] == this->getWidth() - 1)
         return this->gameOver();
     for (auto &tail : player->getTail())
         if (player->getPos()[0] == tail->getPos()[0] && player->getPos()[1] == tail->getPos()[1])
@@ -124,21 +139,24 @@ int Snake::simulate()
     bool foodEaten = false;
     for (auto &food : this->getFood()) {
         if (player->getPos()[0] == food->getPos()[0] && player->getPos()[1] == food->getPos()[1]) {
+            this->removeFood(food);
             this->addFood(this->createFood());
             foodEaten = true;
             player->setPlayerSize(player->getPlayerSize() + 1);
         }
     }
-    if (foodEaten == false)
+    if (foodEaten == false && player->getTail().size() >= player->getPlayerSize()) {
         player->removeTail();
+    }
     this->setScore(player->getPlayerSize());
+    lastFrameTime = currentTime;
     return 0;
 }
 
 std::vector<std::shared_ptr<IEntity>> Snake::getEntities()
 {
     std::vector<std::shared_ptr<IEntity>> entities = std::vector<std::shared_ptr<IEntity>>();
-    for (auto &entity : this->getEntities())
+    for (auto &entity : this->getOtherEntities())
         entities.push_back(entity);
     entities.push_back(this->getPlayer());
     for (auto &tail : dynamic_cast<Player *>(this->getPlayer().get())->getTail())
@@ -148,4 +166,11 @@ std::vector<std::shared_ptr<IEntity>> Snake::getEntities()
     for (auto &wall : this->getWalls())
         entities.push_back(wall);
     return entities;
+}
+
+extern "C" {
+    std::unique_ptr<IGame> loadGameInstance()
+    {
+        return std::make_unique<Snake>();
+    }
 }
