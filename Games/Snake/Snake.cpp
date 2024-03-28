@@ -118,6 +118,7 @@ std::shared_ptr<IEntity> Snake::createFood()
         if (x == 0 || x == this->getWidth() - 1 || y == 0 || y == this->getHeight() - 1)
             correctPos = false;
     } while (!correctPos);
+    //std::list<std::string> foodName = {"GApple", }
     return std::make_shared<AEntity>("Assets/Snake/food", std::vector<size_t>{x, y}, std::vector<size_t>{29, 29}, 0, 'F', std::make_shared<AColor>(255, 0, 0, 255));
 }
 
@@ -171,7 +172,7 @@ std::vector<std::shared_ptr<IEntity>> Snake::getEntities()
 }
 
 extern "C" {
-    IGame *loadGameInstance()
+    Snake *loadGameInstance()
     {
         return new Snake();
     }
