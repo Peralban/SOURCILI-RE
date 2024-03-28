@@ -44,7 +44,8 @@ Snake::Snake() : _score(0), _speed(1), _isRunning(false), _width(22), _height(28
         this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getWidth() - 1, i}, std::vector<size_t>{29, 29}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
     }
     std::vector<std::shared_ptr<IEntity>> entities = std::vector<std::shared_ptr<IEntity>>();
-    //entities.push_back(std::make_shared<AEntity>("Assets/Snake/background", std::vector<size_t>{0, 0}, std::vector<size_t>{29, 29}, 0, '\0', std::make_shared<AColor>(255, 255, 255, 255)));
+    entities.push_back(std::make_shared<AEntity>("Assets/Snake/background", std::vector<size_t>{0, 0}, std::vector<size_t>{638, 812}, 0, '\0', std::make_shared<AColor>(255, 255, 255, 255)));
+    this->_entities = entities;
     //TEXT SCORE!!!
 }
 
@@ -125,13 +126,13 @@ int Snake::simulate()
     std::chrono::time_point<std::chrono::steady_clock> currentTime = std::chrono::steady_clock::now();
     std::chrono::duration<float> elapsedTime = currentTime - lastFrameTime;
 
-    if (elapsedTime.count() <= 0.5f)
+    if (elapsedTime.count() <= 0.3f)
         return 0;
     if (this->_isRunning == false)
         return 0;
     Player *player = dynamic_cast<Player *>(this->getPlayer().get());
     player->move(player->getDirection());
-    if (player->getPos()[0] == 0 || player->getPos()[0] == this->getHeight() - 1 || player->getPos()[1] == 0 || player->getPos()[1] == this->getWidth() - 1)
+    if (player->getPos()[1] == 0 || player->getPos()[1] == this->getHeight() - 1 || player->getPos()[0] == 0 || player->getPos()[0] == this->getWidth() - 1)
         return this->gameOver();
     for (auto &tail : player->getTail())
         if (player->getPos()[0] == tail->getPos()[0] && player->getPos()[1] == tail->getPos()[1])
