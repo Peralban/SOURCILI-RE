@@ -9,13 +9,18 @@ NCURSES_MAKEFILE = make -f Makefile-Graphicals-NCurses.mk -C NCurses
 
 SDL2_MAKEFILE = make -f Makefile-Graphicals-SDL2.mk -C SDL2
 
-all: ncurses sdl2
+SFML_MAKEFILE = make -f Makefile-Graphicals-SFML.mk -C SFML
+
+all: ncurses sdl2 sfml
 
 ncurses:
 	$(NCURSES_MAKEFILE)
 
 sdl2:
 	$(SDL2_MAKEFILE)
+
+sfml:
+	$(SFML_MAKEFILE)
 
 fclean:
 	$(NCURSES_MAKEFILE) fclean
