@@ -71,7 +71,9 @@ void SFMLGraphic::displayEntities(std::vector<std::shared_ptr<IEntity>> entities
         texture.setSmooth(true);
         texture = scaleTexture(texture, entity->getSize()[0], entity->getSize()[1]);
         sprite.setTexture(texture);
-        sprite.setPosition(entity->getPos()[0] * _caseSize, entity->getPos()[1] * _caseSize);
+        sprite.setOrigin(entity->getSize()[0] / 2, entity->getSize()[1] / 2);
+        sprite.setPosition(entity->getPos()[0] * _caseSize + entity->getSize()[0] / 2, entity->getPos()[1] * _caseSize + entity->getSize()[1] / 2);
+        sprite.setRotation(entity->getRotation());
         _window.draw(sprite);
     }
 }
