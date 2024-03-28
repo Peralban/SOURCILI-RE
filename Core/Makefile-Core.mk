@@ -7,7 +7,8 @@
 
 NAME =  arcade
 
-SRC = 	Main.cpp
+SRC = 	Main.cpp	\
+		Core.cpp	\
 
 OBJ = $(SRC:.cpp=.o)
 CFLAGS = -g -Wall -Wextra -std=c++20
