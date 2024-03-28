@@ -170,8 +170,8 @@ std::vector<std::shared_ptr<IEntity>> Snake::getEntities()
 }
 
 extern "C" {
-    std::unique_ptr<IGame> loadGameInstance()
+    Snake *loadGameInstance()
     {
-        return std::make_unique<Snake>();
+        return new Snake();
     }
 }
