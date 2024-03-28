@@ -29,6 +29,9 @@ public:
     void displayEntities(std::vector<std::shared_ptr<IEntity>> entities) override;
     void displayText(std::vector<std::shared_ptr<IText>> texts) override;
     void playSound(std::vector<std::shared_ptr<ISound>> sounds) override;
+
+private:
+    short getNcursesColor(short R, short G, short B);
 };
 
 static std::unordered_map<int, Keys> keyMapNcurses = {
