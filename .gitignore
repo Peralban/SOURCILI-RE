@@ -43,3 +43,6 @@ lib/arcade_*
 
 # criterion file
 tests*
+
+# Valgrind files
+vgcore.*

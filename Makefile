@@ -47,6 +47,7 @@ fclean:
 	$(CORE_MAKEFILE) fclean
 	$(GAMES_MAKEFILE) fclean
 	$(GRAPHICALS_MAKEFILE) fclean
+	rm -f vgcore.*
 
 core-re: fclean core
 
