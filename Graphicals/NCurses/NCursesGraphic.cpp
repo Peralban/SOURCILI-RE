@@ -15,6 +15,7 @@ NCursesGraphic::NCursesGraphic()
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     start_color();
+    //activate arrow keys
     //init_pair(1, COLOR_RED, COLOR_BLACK);
     //init_pair(2, COLOR_GREEN, COLOR_BLACK);
     //init_pair(4, COLOR_BLUE, COLOR_BLACK);
@@ -42,7 +43,8 @@ void NCursesGraphic::clearWindow()
 
 int NCursesGraphic::getKeyEvent()
 {
-    return getch();
+    int key = getch();
+    return (int)keyMapNcurses[key];
 }
 
 void NCursesGraphic::displayWindow()
