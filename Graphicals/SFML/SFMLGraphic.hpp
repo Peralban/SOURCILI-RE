@@ -17,7 +17,7 @@ class SFMLGraphic : public IGraphic {
         SFMLGraphic();
         ~SFMLGraphic() = default;
 
-        bool isWindowOpen();
+        bool isWindowOpen() const;
         void closeWindow();
         void clearWindow();
 

@@ -13,7 +13,7 @@ SFMLGraphic::SFMLGraphic()
     _window.setFramerateLimit(60);
 }
 
-bool SFMLGraphic::isWindowOpen()
+bool SFMLGraphic::isWindowOpen() const
 {
     return _window.isOpen();
 }
@@ -47,12 +47,29 @@ int SFMLGraphic::getKeyEvent() {
     return Keys::UNKNOWN;
 }
 
+sf::Texture scaleTexture(const sf::Texture& texture, unsigned int width, unsigned int height) {
+    sf::Sprite sprite(texture);
+    sf::RenderTexture newTexture;
+    float x = static_cast<float>(width) / texture.getSize().x;
+    float y = static_cast<float>(height) / texture.getSize().y;
+
+    sprite.setScale(x, y);
+    newTexture.create(width, height);
+    newTexture.clear(sf::Color::Transparent);
+    newTexture.draw(sprite);
+    newTexture.display();
+    return newTexture.getTexture();
+}
+
 void SFMLGraphic::displayEntities(std::vector<std::shared_ptr<IEntity>> entities)
 {
     for (auto &entity : entities) {
         sf::Sprite sprite;
         sf::Texture texture;
+
         texture.loadFromFile(entity->getPath() + ".png");
+        texture.setSmooth(true);
+        texture = scaleTexture(texture, entity->getSize()[0], entity->getSize()[1]);
         sprite.setTexture(texture);
         sprite.setPosition(entity->getPos()[0] * _caseSize, entity->getPos()[1] * _caseSize);
         _window.draw(sprite);
@@ -69,7 +86,7 @@ void SFMLGraphic::displayText(std::vector<std::shared_ptr<IText>> texts)
         sfText.setString(text->getText());
         sfText.setCharacterSize(text->getSize());
         sfText.setFillColor(sf::Color(text->getColor()->getR(), text->getColor()->getG(), text->getColor()->getB(), text->getColor()->getA()));
-        sfText.setPosition(text->getPos()[0], text->getPos()[1]);
+        sfText.setPosition(text->getPos()[0] * _caseSize, text->getPos()[1] * _caseSize);
         _window.draw(sfText);
     }
 }
@@ -82,5 +99,12 @@ void SFMLGraphic::playSound(std::vector<std::shared_ptr<ISound>> sounds)
         sf::Sound sfSound;
         sfSound.setBuffer(buffer);
         sfSound.play();
+    }
+}
+
+extern "C" {
+    std::unique_ptr<IGraphic> loadGraphicInstance()
+    {
+        return std::make_unique<SFMLGraphic>();
     }
 }
