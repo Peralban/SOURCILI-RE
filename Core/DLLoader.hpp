@@ -13,48 +13,50 @@
 #include <functional>
 #include <memory>
 
-template <typename T>
-class DLLoader {
-public :
-    class DLLoaderException : public std::exception {
+namespace Arcade {
+    template <typename T>
+    class DLLoader {
     public :
-        DLLoaderException(std::string const &msg) : _msg(msg) {};
-        [[nodiscard]] const char *what() const noexcept override {
-            return _msg.c_str();
+        class DLLoaderException : public std::exception {
+        public :
+            DLLoaderException(std::string const &msg) : _msg(msg) {};
+            [[nodiscard]] const char *what() const noexcept override {
+                return _msg.c_str();
+            }
+        private :
+            std::string _msg;
+        };
+
+        class dlException : public DLLoaderException {
+        public :
+            dlException() : DLLoaderException(dlerror()) {};
+        };
+
+        class TypeException : public DLLoaderException {
+        public :
+            TypeException() : DLLoaderException("Invalid type") {};
+        };
+
+        DLLoader(const std::string path) {
+            lib = dlopen(path.c_str(), RTLD_LAZY);
+            if (!lib)
+                throw dlException();
         }
-    private :
-        std::string _msg;
+
+        ~DLLoader() {
+            if (lib)
+                dlclose(lib);
+        }
+
+        T *getInstance(const std::string type) {
+            if (type != "loadGameInstance" && type != "loadGraphicInstance")
+                throw TypeException();
+            auto sym = reinterpret_cast<T *(*)()>(dlsym(lib, type.c_str()));
+            if (!sym)
+                return nullptr;
+            return sym();
+        }
+    private:
+        void *lib;
     };
-
-    class dlException : public DLLoaderException {
-    public :
-        dlException() : DLLoaderException(dlerror()) {};
-    };
-
-    class TypeException : public DLLoaderException {
-    public :
-        TypeException() : DLLoaderException("Invalid type") {};
-    };
-
-    DLLoader(const std::string path) {
-        lib = dlopen(path.c_str(), RTLD_LAZY);
-        if (!lib)
-            throw dlException();
-    }
-    
-    ~DLLoader() {
-        if (lib)
-            dlclose(lib);
-    }
-
-    T *getInstance(const std::string type) {
-        if (type != "loadGameInstance" && type != "loadGraphicInstance")
-            throw TypeException();
-        auto sym = reinterpret_cast<T *(*)()>(dlsym(lib, type.c_str()));
-        if (!sym)
-            throw dlException();
-        return sym();
-    }
-private:
-    void *lib;
-};
+}
