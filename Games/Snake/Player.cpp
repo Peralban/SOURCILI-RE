@@ -9,14 +9,14 @@
 
 Player::Player() : AEntity("Assets/Snake/player", {0, 0}, {29, 29}, 0, 'O', std::make_shared<AColor>(255, 255, 255, 255))
 {
-    this->direction = Direction::TORIGHT;
+    this->direction = Direction::DOWNWARD;
     this->_player_size = 4;
     this->_tail = std::list<std::shared_ptr<IEntity>>();
 }
 
 Player::Player(size_t x, size_t y) : AEntity("Assets/Snake/player", {x, y}, {29, 29}, 0, 'O', std::make_shared<AColor>(255, 255, 255, 255))
 {
-    this->direction = Direction::TORIGHT;
+    this->direction = Direction::DOWNWARD;
     this->_player_size = 4;
     this->_tail = std::list<std::shared_ptr<IEntity>>();
 }

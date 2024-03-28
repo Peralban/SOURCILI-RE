@@ -68,10 +68,10 @@ void Snake::catchKeyEvent(int key)
     Player *player = dynamic_cast<Player *>(this->getPlayer().get());
     if (key == Keys::Z || key == Keys::UP) {
         player->setDirection(Direction::UPWARD);
-        player->setRotation(0);
+        player->setRotation(180);
     } else if (key == Keys::S || key == Keys::DOWN) {
         player->setDirection(Direction::DOWNWARD);
-        player->setRotation(180);
+        player->setRotation(0);
     } else if (key == Keys::Q || key == Keys::LEFT) {
         player->setDirection(Direction::TOLEFT);
         player->setRotation(270);
@@ -146,7 +146,7 @@ int Snake::simulate()
             player->setPlayerSize(player->getPlayerSize() + 1);
         }
     }
-    if (foodEaten == false && player->getTail().size() >= player->getPlayerSize()) {
+    if (foodEaten == false && player->getTail().size() >= player->getPlayerSize() - 1) {
         player->removeTail();
     }
     this->setScore(player->getPlayerSize());
