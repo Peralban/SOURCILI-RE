@@ -31,17 +31,17 @@ Snake::Snake() : _score(0), _speed(1), _isRunning(false), _width(22), _height(28
     this->_food = std::list<std::shared_ptr<IEntity>>();
     this->_walls = std::vector<std::shared_ptr<IEntity>>();
     this->addFood(createFood());
-    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, 0}, std::vector<size_t>{29, 29}, 0, '┌', std::make_shared<AColor>(0, 0, 0, 255)));
-    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, this->getWidth() - 1}, std::vector<size_t>{29, 29}, 90, '└', std::make_shared<AColor>(0, 0, 0, 255)));
-    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getHeight() - 1, this->getWidth() - 1}, std::vector<size_t>{29, 29}, 180, '┘', std::make_shared<AColor>(0, 0, 0, 255)));
-    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getHeight() - 1, 0}, std::vector<size_t>{29, 29}, 270, '┐', std::make_shared<AColor>(0, 0, 0, 255)));
-    for (size_t i = 1; i < this->getWidth(); i++) {
-        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{i, 0}, std::vector<size_t>{29, 29}, 0, '─', std::make_shared<AColor>(0, 0, 0, 255)));
-        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{i, this->getHeight() - 1}, std::vector<size_t>{29, 29}, 0, '─', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, 0}, std::vector<size_t>{29, 29}, 0, '+', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, this->getHeight() - 1}, std::vector<size_t>{29, 29}, 90, '+', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getWidth() - 1, this->getHeight() - 1}, std::vector<size_t>{29, 29}, 180, '+', std::make_shared<AColor>(0, 0, 0, 255)));
+    this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getWidth() - 1, 0}, std::vector<size_t>{29, 29}, 270, '+', std::make_shared<AColor>(0, 0, 0, 255)));
+    for (size_t i = 1; i < this->getWidth() - 1; i++) {
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{i, 0}, std::vector<size_t>{29, 29}, 0, '-', std::make_shared<AColor>(0, 0, 0, 255)));
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{i, this->getHeight() - 1}, std::vector<size_t>{29, 29}, 0, '-', std::make_shared<AColor>(0, 0, 0, 255)));
     }
-    for (size_t i = 1; i < this->getHeight(); i++) {
-        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, i}, std::vector<size_t>{29, 29}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
-        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getWidth() - 1, i}, std::vector<size_t>{29, 29}, 90, '│', std::make_shared<AColor>(0, 0, 0, 255)));
+    for (size_t i = 1; i < this->getHeight() - 1; i++) {
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{0, i}, std::vector<size_t>{29, 29}, 90, '|', std::make_shared<AColor>(0, 0, 0, 255)));
+        this->addWall(std::make_shared<AEntity>("Assets/Snake/wall", std::vector<size_t>{this->getWidth() - 1, i}, std::vector<size_t>{29, 29}, 90, '|', std::make_shared<AColor>(0, 0, 0, 255)));
     }
     std::vector<std::shared_ptr<IEntity>> entities = std::vector<std::shared_ptr<IEntity>>();
     entities.push_back(std::make_shared<AEntity>("Assets/Snake/background", std::vector<size_t>{0, 0}, std::vector<size_t>{638, 812}, 0, '\0', std::make_shared<AColor>(255, 255, 255, 255)));
@@ -93,11 +93,14 @@ std::shared_ptr<IEntity> Snake::createFood()
 {
     size_t x, y;
     bool correctPos;
+    srand(time(NULL));
 
     do {
         x = rand() % this->_width - 1;
         y = rand() % this->_height - 1;
         correctPos = true;
+        if (x > this->getWidth() - 1 || y > this->getHeight() - 1)
+            correctPos = false;
         for (auto &tail : dynamic_cast<Player *>(this->getPlayer().get())->getTail()) {
             if (x == tail->getPos()[0] && y == tail->getPos()[1]) {
                 correctPos = false;
@@ -115,9 +118,7 @@ std::shared_ptr<IEntity> Snake::createFood()
         if (x == 0 || x == this->getWidth() - 1 || y == 0 || y == this->getHeight() - 1)
             correctPos = false;
     } while (!correctPos);
-    std::string foodChoices = "🍇🍎🍏🍑🍊🍋🍍🍐🍒🍓🥝";
-    size_t randomIndex = rand() % foodChoices.size();
-    return std::make_shared<AEntity>("Assets/Snake/food", std::vector<size_t>{x, y}, std::vector<size_t>{29, 29}, 0, foodChoices[randomIndex], std::make_shared<AColor>(255, 0, 0, 255));
+    return std::make_shared<AEntity>("Assets/Snake/food", std::vector<size_t>{x, y}, std::vector<size_t>{29, 29}, 0, 'F', std::make_shared<AColor>(255, 0, 0, 255));
 }
 
 int Snake::simulate()
@@ -170,7 +171,7 @@ std::vector<std::shared_ptr<IEntity>> Snake::getEntities()
 }
 
 extern "C" {
-    Snake *loadGameInstance()
+    IGame *loadGameInstance()
     {
         return new Snake();
     }
